@@ -4,34 +4,34 @@ Status: Working.
 # Blink the LED when User Button is pressed on the STM32 NUCLEO-F411RE board (STM32F411RET6)  
 
 ## Introduction:  
-Getting started with the STM32 NUCLEO-F411RE board using the free [EmBitz IDE](https://www.embitz.org/) on Windows.
-To blink the LED when the User Button is pressed.
-Based on [this article](./User Manuals/isildak_en.pdf) and used [this article](http://www.firmcodes.com/stm32f407-discovery-gpio-tu) to get it working.
-Flashed firmware hex file using [ST-Link Utility](http://www.st.com/en/development-tools/stsw-link004.html).
+Getting started with the STM32 NUCLEO-F411RE board using the free [EmBitz IDE](https://www.embitz.org/) on Windows.  
+To blink the LED when the User Button is pressed.  
+Based on [this article](./User Manuals/isildak_en.pdf) and used [this article](http://www.firmcodes.com/stm32f407-discovery-gpio-tu) to get it working.  
+Flashed firmware hex file using [ST-Link Utility](http://www.st.com/en/development-tools/stsw-link004.html).  
 
-##I did the following to get the clock working correctly:  
+## I did the following to get the clock working correctly:  
 system_stm32f4xx.c - System Clock Configuration file.  
 We are using the internal oscillator (HSI) which is 16Mhz  
 We are using PLLCLK Mux  
 
-###Setup In stm32f4xx.h:  
+### Setup In stm32f4xx.h:  
 1. Uncomment the line: #define USE_STDPERIPH_DRIVER  
 2. set this: #define HSE_VALUE    ((uint32_t)16000000)  
 3. set this: #define HSI_VALUE    ((uint32_t)16000000)  
 
-###Setup In system_stm32f4xx.c:  
+### Setup In system_stm32f4xx.c:  
 1. #define PLL_M      16  
 2. #define PLL_N      336  
 3. #define PLL_P      4  
 4. #define PLL_Q      7  
 5. uint32_t SystemCoreClock = 84000000;  
 
-###Setup In fm_stm32F4_delay.c:  
-1. fac_us=SystemCoreClock/16000000;
+### Setup In fm_stm32F4_delay.c:  
+1. fac_us=SystemCoreClock/16000000;  
 
 ---
 
-##Cannot connect to device: "old st-link firmware/st-link already used"
+## Cannot connect to device: "old st-link firmware/st-link already used"
 First time I thought that the problem was caused by a brief short-circuit caused by hot-plugging the SIM. This was not the cause. After some research, I found out that I was setting PA14 as output and high, and SWDIO is connected to this pin. This is why there were those problems, and why ["Connect under reset"](https://github.com/adam-dej/adam-dej.github.io/blob/master/_drafts/2014-08-05-stm32-quick-fix.md) worked, and why the problem went away after erasing the flash.  
 
 ---
