@@ -16,6 +16,8 @@
 #include "fm_stm32f4_led.h"
 #include "fm_stm32f4_delay.h"
 
+// SystemCoreClock = ((INPUT_CLOCK(HSE_OR_HSI_IN_HZ)/PLL_M)*PLL_N)/PLL_P
+
 static void button_setup(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
